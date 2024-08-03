@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const mysql = require('mysql');
 const PORT = process.env.PORT || 3000;
 
 const books = [
@@ -16,10 +17,29 @@ const books = [
 ];
 
 
+const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+  });
 
-app.get('/api/books', (req, res) => {
-    res.json(books);
-});
+db.connect((err) => {
+    if (err) {
+      console.error('Error connecting to the database:', err);
+      return;
+    }
+    console.log('Connected to the database');
+  });
+  
+  app.get('/api/books', (req, res) => {
+    db.query('SELECT * FROM books', (err, results) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      res.json(results);
+    });
+  });
 
 app.get('/api/books/:id', (req, res) => {
     const book = books.find(b => b.id === parseInt(req.params.id));
