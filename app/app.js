@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const mysql = require('mysql');
+// const mysql = require('mysql');
 const PORT = process.env.PORT || 3000;
 
 const books = [
@@ -17,28 +17,30 @@ const books = [
 ];
 
 
-const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-  });
+// const db = mysql.createConnection({
+//     host: process.env.DB_HOST,
+//     user: process.env.DB_USERNAME,
+//     password: process.env.DB_PASSWORD,
+//     database: process.env.DB_DATABASE,
+//   });
 
-db.connect((err) => {
-    if (err) {
-      console.error('Error connecting to the database:', err);
-      return;
-    }
-    console.log('Connected to the database');
-  });
+// db.connect((err) => {
+//     if (err) {
+//       console.error('Error connecting to the database:', err);
+//       return;
+//     }
+//     console.log('Connected to the database');
+//   });
   
   app.get('/api/books', (req, res) => {
-    db.query('SELECT * FROM books', (err, results) => {
-      if (err) {
-        return res.status(500).json({ error: err.message });
-      }
-      res.json(results);
-    });
+    // db.query('SELECT * FROM books', (err, results) => {
+    //   if (err) {
+    //     return res.status(500).json({ error: err.message });
+    //   }
+    //   res.json(results);
+    // });
+    const hello = { hello : "word"}
+    res.json(hello);
   });
 
 app.get('/api/books/:id', (req, res) => {
